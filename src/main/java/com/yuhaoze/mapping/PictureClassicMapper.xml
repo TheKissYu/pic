@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuhaoze.dao.PictureClassicMapper">
+  <resultMap id="BaseResultMap" type="com.yuhaoze.entity.PictureClassic">
+    <id column="pic_classic_id" jdbcType="INTEGER" property="picClassicId" />
+    <result column="pic_classic_name" jdbcType="VARCHAR" property="picClassicName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pic_classic_id, pic_classic_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_picture_classic
+    where pic_classic_id = #{picClassicId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_picture_classic
+    where pic_classic_id = #{picClassicId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yuhaoze.entity.PictureClassic">
+    insert into t_picture_classic (pic_classic_id, pic_classic_name)
+    values (#{picClassicId,jdbcType=INTEGER}, #{picClassicName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuhaoze.entity.PictureClassic">
+    insert into t_picture_classic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="picClassicId != null">
+        pic_classic_id,
+      </if>
+      <if test="picClassicName != null">
+        pic_classic_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="picClassicId != null">
+        #{picClassicId,jdbcType=INTEGER},
+      </if>
+      <if test="picClassicName != null">
+        #{picClassicName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yuhaoze.entity.PictureClassic">
+    update t_picture_classic
+    <set>
+      <if test="picClassicName != null">
+        pic_classic_name = #{picClassicName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pic_classic_id = #{picClassicId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yuhaoze.entity.PictureClassic">
+    update t_picture_classic
+    set pic_classic_name = #{picClassicName,jdbcType=VARCHAR}
+    where pic_classic_id = #{picClassicId,jdbcType=INTEGER}
+  </update>
+  <select id="getAllPicClassic"  resultType="map">
+    select
+    <include refid="Base_Column_List" />
+    from t_picture_classic
+
+  </select>
+</mapper>

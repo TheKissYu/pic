@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>美图网</title>
+    <link rel="shortcut icon" href="../images/favicon.ico" />
+    <link type="text/css" href="../layui/css/layui.css" rel="stylesheet" />
+    <link type="text/css" href="../css/css.css" rel="stylesheet" />
+    <script type="text/javascript" src="../layui/layui.js"></script>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/vue.min.js"></script>
+    <script type="text/javascript" src="../js/js.js"></script>
+    <script type="text/javascript" src="../js/y_utils.js"></script>
+    <link type="text/css" href="../bootstrap/css/bootstrap.css" rel="stylesheet" />
+
+    <style>
+        .footer{position:absolute;bottom:0;width:100%;height:100px;}
+        .layui-table-cell{ height:100px; line-height: 100px; }
+        .layui-form-pane .layui-form-label {
+            width: 110px;
+            padding: 8px 15px;
+            height: 50px;
+            line-height: 20px;
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 2px 0 0 2px;
+            text-align: center;
+            background-color: #FBFBFB;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .layui-input,
+        .layui-select,
+        .layui-textarea {
+            height: 50px;
+            line-height: 1.3;
+            line-height: 38px;
+            border-width: 1px;
+            border-style: solid;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <div class="width1190">
+        <div class="fl">图片分享网站</div>
+        <div class="fr" id="login">{{user}},你好 |<a href="javascript:zhuxiao()">注销</a>
+        </div>
+    </div>
+    <!--width1190/-->
+</div>
+
+</div>
+<!--logo-phone/-->
+<div class="list-nav">
+    <div class="width1190">
+        <div class="list">
+            <form class="layui-form layui-form-pane" action="">
+
+                <!-- 城市下拉框  id名要和lay-filter一致-->
+                <div class="layui-form-item">
+                    <div class="layui-input-block" id="city" lay-filter="city">
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--list-->
+        <ul class="nav">
+            <li><a href="indexDemo.html">首页</a></li>
+            <li><a href="top.html">top榜</a></li>
+            <li><a href="upload.html">上传图片</a></li>
+            <li><a href="about.html">我的图片</a></li>
+            <li><a href="Mydownload.html">我的下载</a></li>
+            <li><a href="aboutus.html">个人中心</a></li>
+            <div class="clears"></div>
+        </ul>
+        <!--nav-->
+        <div class="clears"></div>
+    </div>
+    <!--width1190/-->
+</div>
+<!--list-nav-->
+
+
+<div class="layui-main" id="let">
+
+
+        <div class="layui-form-item" style="top: 10px">
+            <label class="layui-form-label">昵称：</label>
+            <div class="layui-input-block">
+                <br/>
+                <label class="layui-form-label">{{userName}}</label>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别：</label>
+            <div class="layui-input-block">
+                <br/>
+                <label class="layui-form-label">{{userSex}}</label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">生日：</label>
+            <div class="layui-input-block">
+                <br/>
+                <label class="layui-form-label">{{birthday}}</label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" onclick="tt()">修改</button>
+            </div>
+        </div>
+
+</div>
+<div class="footer">
+    <div class="width1190">
+        <div class="fl">
+            <a href="index.html"><strong>美图网</strong></a><a href="about.html">关于我们</a><a
+                href="contact.html">联系我们</a><a href="user.html">个人中心</a>
+        </div>
+        <div class="fr">
+            <dl>
+                <dt>
+                    <img src="../images/qq.png" width="76" height="76" />
+                </dt>
+                <dd>
+                    QQ<br />1103255467
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <img src="../images/qq.png" width="76" height="76" />
+                </dt>
+                <dd>
+                    微信扫一扫<br />余昊泽
+                </dd>
+            </dl>
+            <div class="clears"></div>
+        </div>
+        <div class="clears"></div>
+    </div>
+    <div class="layui-footer copy">
+        Copyright@ 2019 美图网 版权所有 余昊泽0&nbsp;&nbsp;&nbsp;&nbsp;技术支持：<a
+            target="_blank" href="https://github.com/TheKissYu">余昊泽</a>
+    </div>
+</div>
+<script type="">
+    $(function () {
+        var l1="";
+        var l2="";
+        var l3="";
+        $.ajax({
+            type: "get",
+            url: "/pic/userlogin/getUserInfo",
+            async: false,
+            datatype: "json",
+            success: function (data) {
+                if (data.code == 0) {
+                    alert("请完善资料")
+                    location.href="xiugai.html";
+                }else{
+                    l1=data.data.userName;
+                    if(data.data.userSex == 0){
+                        l2="男";
+                    }else {
+                        l2="女";
+                    }
+                    l3=data.data.userBrithday;
+                }
+            }
+        })
+
+        var app = new Vue({
+            el: '#let',
+            data: {
+                userName: l1,
+                userSex:l2,
+                birthday:l3
+            }
+        })
+    })
+    function tt(){
+        location.href="xiugai.html"
+    }
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+
+
+
+
+
+
+    var obj1 = true;
+    var name ="";
+    $.ajax({
+        type: "get",
+        url: "/pic/user/loginVer",
+        async: false,
+        datatype: "json",
+        success: function (data) {
+            if(data.code == 1){
+                obj1 = false;
+                name = data.data;
+            }
+
+        }
+    })
+    var app3 = new Vue({
+        el: '#login',
+        data: {
+            seen: obj1,
+            seen0:!obj1,
+            user:name
+        }
+    })
+    function zhuxiao(){
+        $.ajax({
+            type: "get",
+            url: "/pic/userlogin/logout",
+            async: false,
+            datatype: "json",
+            success: function (data) {
+                if(data.code == 1){
+                    location.href="indexDemo.html";
+                }
+
+            }
+        })
+    }
+
+
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('select(business)', function(data){
+            var type = $("#cl").data('type');
+            console.log(data.value);
+            if(data.value == 1){
+                location.href="aboutus.html"
+            } else if(data.value == -1){
+                location.href="about.html"
+            }
+        });
+
+    });
+</script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuhaoze.dao.PicDownloadMapper">
+  <resultMap id="BaseResultMap" type="com.yuhaoze.entity.PicDownload">
+    <id column="downloadID" jdbcType="INTEGER" property="downloadid" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="pcitureID" jdbcType="INTEGER" property="pcitureid" />
+  </resultMap>
+  <resultMap id="pdResult" type="com.yuhaoze.vo.PicDownloadVo">
+    <id column="pictureID" jdbcType="INTEGER" property="pictureid" />
+    <result column="userName" jdbcType="INTEGER" property="userName" />
+    <result column="picture_name" jdbcType="VARCHAR" property="pictureName" />
+    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="picture_downlad_count" jdbcType="INTEGER" property="downloadCounts" />
+    <result column="picture_path" jdbcType="VARCHAR" property="picPath" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    downloadID, userId, pcitureID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_download
+    where downloadID = #{downloadid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_download
+    where downloadID = #{downloadid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yuhaoze.entity.PicDownload">
+    insert into t_download (downloadID, userId, pcitureID
+      )
+    values (#{downloadid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{pcitureid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuhaoze.entity.PicDownload">
+    insert into t_download
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="downloadid != null">
+        downloadID,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="pcitureid != null">
+        pcitureID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="downloadid != null">
+        #{downloadid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="pcitureid != null">
+        #{pcitureid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yuhaoze.entity.PicDownload">
+    update t_download
+    <set>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="pcitureid != null">
+        pcitureID = #{pcitureid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where downloadID = #{downloadid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yuhaoze.entity.PicDownload">
+    update t_download
+    set userId = #{userid,jdbcType=INTEGER},
+      pcitureID = #{pcitureid,jdbcType=INTEGER}
+    where downloadID = #{downloadid,jdbcType=INTEGER}
+  </update>
+  <select id="selectMyAllDownload" parameterType="int" resultMap="pdResult">
+select p.pictureID,u.userName,p.picture_name,p.creat_time,p.picture_downlad_count,p.picture_path FROM t_download d INNER JOIN t_picture p ON p.pictureID = d.pcitureID
+left JOIN user_info u on u.userID = p.userId where p.picture_status=2 and d.userId =  #{uid}
+  </select>
+  <select id="selectMyAllDownload1" parameterType="int" resultMap="pdResult">
+      select p.pictureID,u.user_login_name userName,p.picture_name,p.creat_time,p.picture_downlad_count,p.picture_path FROM t_download d INNER JOIN t_picture p ON p.pictureID = d.pcitureID
+    INNER JOIN user_login u on u.userID = p.userId where p.picture_status=2 and d.userId =  #{uid}
+  </select>
+</mapper>
